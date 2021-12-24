@@ -5,6 +5,7 @@ const operatorOptions = /[/*\-\+]/g;
 let selectedOperator = "";
 let firstNum,
 	secondNum = 0;
+let goAgain = false;
 
 let username = rs.question("What is your name? ");
 // explain to user
@@ -13,9 +14,15 @@ console.log(
 		username +
 		", this program helps you perform math operations, please answer the questions below 👇 :)"
 );
+console.log(" ");
 
 // Functions below
-function chooseOperator() {
+function getUserNumbers() {
+	firstNum = rs.questionInt("Please enter the first number: ");
+	secondNum = rs.questionInt("Please enter the second number: ");
+	performOperation();
+}
+function startOperation() {
 	console.log("Your options are:");
 	console.log(`" / " for division`);
 	console.log(`" * " for multiplication`);
@@ -28,14 +35,39 @@ function chooseOperator() {
 		console.log("That is not a valid operation");
 		console.log("Please try again!");
 		console.log("");
-		chooseOperator();
+		startOperation();
 	} else {
 		getUserNumbers();
 	}
 }
-chooseOperator();
+startOperation();
 
-function getUserNumbers() {
-	firstNum = rs.questionInt("Please enter the first number: ");
-	secondNum = rs.questionInt("Please enter the second number: ");
+function wantToContinue() {
+	goAgain = rs.keyInYN("Do you want to do another operation? ");
+}
+function performOperation() {
+	let total = 0;
+	const result = console.log("The result is: " + total);
+	switch (selectedOperator) {
+		case "/":
+			total = firstNum / secondNum;
+			break;
+		case "*":
+			total = firstNum * secondNum;
+			break;
+		case "-":
+			total = firstNum - secondNum;
+			break;
+		case "+":
+			total = firstNum + secondNum;
+			break;
+		default:
+			null;
+	}
+}
+wantToContinue();
+
+if (goAgain) {
+	startOperation();
+	console.log("");
 }
