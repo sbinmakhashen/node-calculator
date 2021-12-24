@@ -1,7 +1,6 @@
 // global vars below
 // initiate the node package
 const rs = require("readline-sync");
-const operatorOptions = /[/*\-\+]/g;
 let selectedOperator = "";
 let firstNum,
 	secondNum = 0;
@@ -17,12 +16,9 @@ console.log(
 console.log(" ");
 
 // Functions below
-function getUserNumbers() {
-	firstNum = rs.questionInt("Please enter the first number: ");
-	secondNum = rs.questionInt("Please enter the second number: ");
-	performOperation();
-}
+
 function startOperation() {
+	const operatorOptions = /[/*\-\+]/g;
 	console.log("Your options are:");
 	console.log(`" / " for division`);
 	console.log(`" * " for multiplication`);
@@ -42,12 +38,21 @@ function startOperation() {
 }
 startOperation();
 
+function getUserNumbers() {
+	firstNum = rs.questionInt("Please enter the first number: ");
+	secondNum = rs.questionInt("Please enter the second number: ");
+	performOperation();
+}
+
 function wantToContinue() {
 	goAgain = rs.keyInYN("Do you want to do another operation? ");
+
+	while (goAgain) {
+		startOperation();
+	}
 }
 function performOperation() {
 	let total = 0;
-	const result = console.log("The result is: " + total);
 	switch (selectedOperator) {
 		case "/":
 			total = firstNum / secondNum;
@@ -64,10 +69,7 @@ function performOperation() {
 		default:
 			null;
 	}
-}
-wantToContinue();
 
-if (goAgain) {
-	startOperation();
-	console.log("");
+	console.log("The result is: " + total.toFixed(2));
+	wantToContinue();
 }
