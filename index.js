@@ -20,7 +20,6 @@ console.log(
 console.log(" ");
 
 // Functions below
-
 function startOperation() {
 	const operatorOptions = /^[/*\-\+]$/;
 	console.log("Your options are:");
@@ -87,7 +86,9 @@ function getUserInput() {
 	if (!/\s/.test(userInput)) {
 		console.log("you must have space between characters, try again");
 		getUserInput();
-	} else if (/^\s/.test(userInput) || /\s$/.test(userInput)) {
+	}
+	//trow an error when starting or ending operation with space
+	else if (/^\s/.test(userInput) || /\s$/.test(userInput)) {
 		console.log("You can't start or end the operation with space, try again");
 		getUserInput();
 	} else if (selectedOperator !== selectedOption) {
