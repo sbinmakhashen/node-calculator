@@ -22,6 +22,7 @@ console.log(" ");
 // Functions below
 function startOperation() {
 	const operatorOptions = /^[/*\-\+]$/;
+
 	console.log("Your options are:");
 	console.log(`" / " for division`);
 	console.log(`" * " for multiplication`);
