@@ -1,7 +1,8 @@
 // global vars below
 // initiate the node package
 const rs = require("readline-sync");
-let selectedOperator = "";
+let selectedOperator,
+	selectedOption = "";
 let total,
 	firstNum,
 	secondNum = 0;
@@ -21,50 +22,55 @@ console.log(" ");
 // Functions below
 
 function startOperation() {
-	const operatorOptions = /[/*\-\+]/g;
+	const operatorOptions = /^[/*\-\+]$/;
 	console.log("Your options are:");
 	console.log(`" / " for division`);
 	console.log(`" * " for multiplication`);
 	console.log(`" - " for subtraction`);
 	console.log(`" + " for addition`);
-	selectedOperator = rs.question("What operation would you like to perform? ");
+	console.log("");
+	selectedOption = rs.question(
+		"What kind of operation would you like to perform?, input one if the options above: "
+	);
 
 	// check if the user input invalid operation
-	if (!operatorOptions.test(selectedOperator)) {
+	if (!operatorOptions.test(selectedOption)) {
 		console.log("That is not a valid operation");
 		console.log("Please try again!");
 		console.log("");
 		startOperation();
 	} else {
-		getUserNumbers();
+		getUserInput();
 	}
 }
 startOperation();
-function getUserNumbers() {
+
+function getUserInput() {
+	// modify the default options of this package
 	rs.setDefaultOptions({
 		limit: /[0-9/*\-\+]/,
 		limitMessage: `invalid character, please follow the information above`,
 	});
+	// if the input does not include the math characters throw an error and try again
 	if (!/[0-9/*\-\+]/.test(userInput)) {
 		console.log("");
 		console.log("");
 		console.log(
-			"please perform a math operation using the operator that you chose."
+			"please perform a math operation using the " +
+				selectedOption +
+				" operator"
 		);
+		console.log("");
 		console.log("example:");
 		console.log(
 			`if you chose '+' then input an operation using the '+' ( 5 + 5 )`
 		);
+		console.log("");
 	}
 	userInput = rs.question("Please input operation here: ");
-	if (!/\s/.test(userInput)) {
-		console.log("you must have space between characters, try again");
-		getUserNumbers();
-	}
 
-	let userNumbersInput = userInput.match(/[0-9]/g);
-	firstNum = Number(userNumbersInput[0]);
-	secondNum = Number(userNumbersInput[1]);
+	firstNum = Number(userInput.split(" ")[0]);
+	secondNum = Number(userInput.split(" ")[userInput.split(" ").length - 1]);
 
 	// selectedOperator =
 	selectedOperator = userInput
@@ -76,12 +82,28 @@ function getUserNumbers() {
 		})
 		.join("");
 
-	console.log(
-		"selected operator is: " +
-			selectedOperator +
-			" and its the typeof: " +
-			typeof selectedOperator
-	);
+	// error handling
+	// if there is no space output an error and try again
+	if (!/\s/.test(userInput)) {
+		console.log("you must have space between characters, try again");
+		getUserInput();
+	} else if (/^\s/.test(userInput) || /\s$/.test(userInput)) {
+		console.log("You can't start or end the operation with space, try again");
+		getUserInput();
+	} else if (selectedOperator !== selectedOption) {
+		console.log(
+			"Expected to perform operation using the " +
+				selectedOption +
+				" but instead got the " +
+				selectedOperator +
+				" operator"
+		);
+		console.log("Please try again");
+		console.log("");
+
+		startOperation();
+	}
+
 	performOperation();
 }
 
