@@ -9,6 +9,7 @@ let userInput = "";
 let goAgain = false;
 
 let username = rs.question("What is your name? ");
+console.log("");
 // explain to user
 console.log(
 	"Hi " +
@@ -60,31 +61,27 @@ function getUserNumbers() {
 		console.log("you must have space between characters, try again");
 		getUserNumbers();
 	}
-	// console.log(userInput.indexOf(" "));
-	// userInput.split(" ").map(function (val) {
-	// if (/[0-9]/g.test(userInput)) {
-	// 	firstNum = userInput[0];
-	// 	secondNum = userInput[1];
-	// }
 
 	let userNumbersInput = userInput.match(/[0-9]/g);
 	firstNum = Number(userNumbersInput[0]);
 	secondNum = Number(userNumbersInput[1]);
 
 	// selectedOperator =
-	console.log("Find the math operator " + userInput.search(/[/*\-\+]/));
-	// else if (/[/*\-\+]/.test(userInput)) {
-	// 	selectedOperator = userInput;
-	// }
-	// });
+	selectedOperator = userInput
+		.split(" ")
+		.map(function (v) {
+			if (/[/*\-\+]/g.test(v)) {
+				return v;
+			}
+		})
+		.join("");
 
-	// console.log(
-	// 	`The first number is ${firstNum} and the second number is $S{secondNum}`
-	// );S
-
-	if (toString(selectedOperator) === "+") {
-	}
-
+	console.log(
+		"selected operator is: " +
+			selectedOperator +
+			" and its the typeof: " +
+			typeof selectedOperator
+	);
 	performOperation();
 }
 
@@ -97,7 +94,7 @@ function wantToContinue() {
 }
 
 function performOperation() {
-	switch (toString(selectedOperator)) {
+	switch (selectedOperator) {
 		case "/":
 			total = firstNum / secondNum;
 			break;
@@ -114,6 +111,6 @@ function performOperation() {
 			null;
 	}
 
-	console.log("The result is: " + total);
+	console.log("The result is: " + total.toFixed(2));
 	wantToContinue();
 }
